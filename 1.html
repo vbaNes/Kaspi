@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Удостоверение личности</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 400px;
+            height: 100vh;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Шапка */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 10px 0 20px 0;
+        }
+
+        .back-arrow {
+            position: absolute;
+            left: 0;
+            font-size: 24px;
+            color: #d34326;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .header h1 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* Переключатель (Табы) */
+        .tabs {
+            display: flex;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            padding: 2px;
+            margin-bottom: 40px;
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px 0;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            color: #666;
+            transition: all 0.2s ease;
+        }
+
+        .tab.active {
+            background-color: #ffffff;
+            color: #000;
+            font-weight: 500;
+            box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Контент загрузки */
+        .upload-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 20px;
+        }
+
+        .upload-zone {
+            width: 85%;
+            aspect-ratio: 1 / 1.25; /* Пропорции окна под фото */
+            border: 2px dashed #b0bec5;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            background-color: #fafafa;
+            transition: all 0.2s ease;
+            overflow: hidden; /* Чтобы картинка не вылезала за скругленные края */
+            position: relative;
+        }
+
+        .upload-zone:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* Элементы внутри зоны (до загрузки) */
+        .upload-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 15px;
+            color: #455a64;
+        }
+
+        .upload-text {
+            font-size: 15px;
+            color: #333;
+            line-height: 1.3;
+        }
+
+        /* Превью загруженного изображения */
+        .preview-img {
+            display: none; /* Изначально скрыто */
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Красиво растягивает фото по центру без искажений */
+            border-radius: 12px;
+        }
+
+        .upload-label {
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #000;
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        /* Кнопки внизу */
+        .bottom-actions {
+            margin-top: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding-bottom: 10px;
+        }
+
+        .btn-primary {
+            background-color: #008cd1;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .btn-primary:active {
+            background-color: #0076b3;
+        }
+
+        .btn-secondary {
+            background: none;
+            border: none;
+            color: #008cd1;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+        }
+
+        .icon {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    
+    <div class="header">
+        <a href="#" class="back-arrow">&#10094;</a>
+        <h1>Удостоверение личности</h1>
+    </div>
+
+    <div class="tabs">
+        <div class="tab active">Документ</div>
+        <div class="tab">Реквизиты</div>
+    </div>
+
+    <div class="upload-content">
+        <label for="file-input" class="upload-zone" id="drop-zone">
+            
+            <div class="upload-info" id="upload-info">
+                <svg class="upload-icon icon" viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p class="upload-text">Нажмите для выбора фото документа</p>
+            </div>
+
+            <img src="" alt="Превью" class="preview-img" id="preview-img">
+
+            <input type="file" id="file-input" accept="image/*">
+        </label>
+        <p class="upload-label" id="bottom-label">Загрузка: Лицевая сторона</p>
+    </div>
+
+    <div class="bottom-actions">
+        <button class="btn-primary">
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24" style="stroke-width: 2.5;">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Предъявить документ
+        </button>
+        
+        <button class="btn-secondary">
+            <svg class="icon" width="18" height="18" viewBox="0 0 24 24">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                <polyline points="16 6 12 2 8 6"></polyline>
+                <line x1="12" y1="2" x2="12" y2="15"></line>
+            </svg>
+            Отправить документ
+        </button>
+    </div>
+
+</div>
+
+<script>
+    const fileInput = document.getElementById('file-input');
+    const uploadInfo = document.getElementById('upload-info');
+    const previewImg = document.getElementById('preview-img');
+    const dropZone = document.getElementById('drop-zone');
+    const bottomLabel = document.getElementById('bottom-label');
+
+    fileInput.addEventListener('change', function() {
+        const file = this.files[0];
+        
+        if (file) {
+            const reader = new FileReader();
+
+            reader.addEventListener('load', function() {
+                // 1. Показываем картинку и передаем ей путь к файлу
+                previewImg.src = this.result;
+                previewImg.style.display = 'block';
+                
+                // 2. Скрываем текст "Нажмите для выбора..." и иконку облака
+                uploadInfo.style.display = 'none';
+                
+                // 3. Делаем рамку сплошной и синей, как на финальном дизайне
+                dropZone.style.border = '2px solid #008cd1';
+                
+                // 4. Меняем текст внизу для красоты
+                bottomLabel.innerText = '';
+            });
+
+            // Читаем файл как URL-данные
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+</body>
+</html>
